@@ -6,4 +6,4 @@ COPY package.json package-lock.json ./
 
 RUN npm i
 
-CMD ["node" "index.js"]
+CMD ["node", "index.js"]
