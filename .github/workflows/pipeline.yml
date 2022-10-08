@@ -1,0 +1,32 @@
+env:
+  REGISTRY: public.ecr.aws/y8l5h6t0/gateway
+name: Build and Push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y8l5h6t0
+      - run: docker build -t "${{ env.REGISTRY }}" .
+      - run: docker tag ${{ env.REGISTRY }} ${{ env.REGISTRY }}:latest
+      - run: docker tag ${{ env.REGISTRY }} ${{ env.REGISTRY }}:${GITHUB_SHA::7}
+      - run: docker push ${{ env.REGISTRY }}:latest
+      - run: docker push ${{ env.REGISTRY }}:${GITHUB_SHA::7}
