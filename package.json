@@ -72,7 +72,8 @@
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.0.0",
     "winston": "^3.2.1",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "helphack-router": "git+https://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:x-oauth-basic@github.com/HelpHack/router-js.git#main"
   },
   "devDependencies": {
     "coveralls": "^3.0.7",
