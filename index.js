@@ -11,14 +11,15 @@ const init = async () => {
   router = new Router(queueManager);
   httpHandler = new HttpHandler(queueManager)
 }
-init()
+init().then(() => {
+  console.log('init')
+  app.get('/*', async (req, res, next) => {
 
-app.get('/*', async (req, res, next) => {
+    await httpHandler.handleRequest(req,res, next)
+  });
 
-  await httpHandler.handleRequest(req,res, next)
-  res.send('Express + TypeScript Server');
-});
+  app.listen(port, () => {
+    console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+  });
+})
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-});

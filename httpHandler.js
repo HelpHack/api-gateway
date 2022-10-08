@@ -57,7 +57,6 @@ class HttpHandler {
     console.log({ req });
     const startTime = new Date().getTime();
     const queueName = HttpHandler.getQueueName(req.path);
-    res.send(queueName)
     const start = new Date().getTime();
 
     let statusCode = 0;

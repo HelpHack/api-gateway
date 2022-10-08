@@ -8,4 +8,4 @@ const createRabbitManger  = async () => new msgbus(`amqp://${USER}:${PASSWORD}@$
   exchange: { mandatory: true, immediate: true }
 });
 
-export default createRabbitMangers
+export default createRabbitManger
