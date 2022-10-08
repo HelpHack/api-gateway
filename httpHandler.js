@@ -58,19 +58,19 @@ class HttpHandler {
     const startTime = new Date().getTime();
     const queueName = HttpHandler.getQueueName(req.path);
     const start = new Date().getTime();
-
+    console.log({queueName})
     let statusCode = 0;
 
     try {
       const rabbitRequest = await this._toRabbitmqRequest(req);
-
+      console.log({rabbitRequest})
       const result = await this.queueManager.query(
         queueName,
         rabbitRequest,
         { mandatory: true, immediate: true },
         TIMEOUT,
       );
-
+      console.log({result})
       const { headers } = result;
       statusCode = result.statusCode;
       const data = result.data
