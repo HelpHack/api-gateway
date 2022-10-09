@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export class BestTimeApi {
     constructor() {
-        this.apiKey = 'pri_3a8de7a4ed4d4ab5a8785d440ae4ab85'
+        this.apiKey = 'pri_6e0c1cec83e64e428e671017a014d3e2'
     }
 
     getShopsInArea = async (lat, lng) => {
