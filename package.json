@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/HelpHack/api-gateway#readme",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.13.5",
+    "axios": "^1.1.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "helphack-router": "git+https://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:x-oauth-basic@github.com/HelpHack/router-js.git#main",
