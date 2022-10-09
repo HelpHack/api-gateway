@@ -62,12 +62,12 @@ console.log({venues})
 
         console.log({theBestShop})
 
-        return theBestShop
+        // return theBestShop
 
         return {
-            start,
-            end,
-            waypoint: {lng: theBestShop.venue.lng, lat: theBestShop.venue_lat},
+            start: {lat: startLat, lng: startLng},
+            end: {lat: endLat, lng: endLng},
+            waypoint: {lng: theBestShop.venue_lng, lat: theBestShop.venue_lat},
             shop: theBestShop
         }
     }
