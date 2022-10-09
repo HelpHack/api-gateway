@@ -1,20 +1,27 @@
 
 export class DirectionsController {
-    constructor(router, directionsService) {
-        this.router = router;
+    constructor(express, directionsService) {
+        this.express = express;
         this.directionsService = directionsService
 
         this.registerEndpoints();
     }
 
     registerEndpoints = () => {
-        this.router.get('directions', '/directions', this.getDirections);
+        this.express.get('/directions', async (req, res) => {
+            console.log({params: req.params})
+            console.log({query: req.query})
+            const result = await this.getDirections(req)
+
+            res.send(result)
+        })
     }
 
     getDirections = async (request) => {
-        const {start, end, type, numberOfProducts} = request.query
+        // console.log({request})
+        const {startLat,startLng, endLat,endLng, type, numberOfProducts} = request.query
 
-        const result = await this.directionsService.getDirections(start, end, type, numberOfProducts)
+        const result = await this.directionsService.getDirections(Number(startLat),Number(startLng), Number(endLat), Number(endLng), type, Number(numberOfProducts))
 
         return result;
     }

@@ -4,11 +4,12 @@ export class DirectionsService {
         this.bestTimeApi = bestTimeApi
     }
 
-    getDirections = async (start, end, type, numberOfProducts) => {
-        console.log({start, end, type})
-        const startArrayLocation = [start.lng, start.lat]
-        const endArrayLocation = [end.lng, end.lat]
-        const {route: rawRoute} = await this.mapApi.getDirections(start,end,type)
+    getDirections = async (startLat,startLng ,endLat,endLng, type, numberOfProducts) => {
+        // console.log({start, end, type})
+      console.log({startLat,startLng ,endLat,endLng, type, numberOfProducts})
+        const startArrayLocation = [startLng, startLat]
+        const endArrayLocation = [endLng, endLat]
+        const {route: rawRoute} = await this.mapApi.getDirections(startLat,startLng,endLat, endLng,type)
         console.log({rawRoute})
         const legs = rawRoute.legs
         console.log({legs})
@@ -24,7 +25,7 @@ export class DirectionsService {
         const sumOfBusyIndices = venues.reduce((sum, venue) => sum + venue.day_raw[0], 0)
         const countOfBusyIndices = venues.reduce((count, venue) => venue.day_raw[0] > 0 ? count + 1 : count, 0)
 
-
+console.log({venues})
 
         const averageBusyIndex = countOfBusyIndices ? sumOfBusyIndices / countOfBusyIndices : 0
         const timesPerShop = venues.map(venue => {
@@ -42,7 +43,7 @@ export class DirectionsService {
         }).sort((a,b) => a.predictedTimeInShop - b.predictedTimeInShop)
         // console.log({timesPerShop})
         const bestShops = timesPerShop.slice(0,5)
-        const routesPromises = bestShops.map(venue => this.mapApi.getDirections(start, end, type, {lng: venue.venue_lng, lat: venue.venue_lat}, venue.venue_id))
+        const routesPromises = bestShops.map(venue => this.mapApi.getDirections(startLat,startLng, endLat,endLng, type, {lng: venue.venue_lng, lat: venue.venue_lat}, venue.venue_id))
         const bestShopsRoutes = await Promise.all(routesPromises)
         // console.log({bestShopsRoutes: bestShopsRoutes.map(x => x.route)});
         const summedTimes = bestShopsRoutes.map(({id: venueId, route}) => {

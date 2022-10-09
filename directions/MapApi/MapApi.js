@@ -14,36 +14,36 @@ export class MapApi {
         this.directionsClient = mbxDirections(this.baseClient)
     }
 
-    getDirections = async (start, end, type, waypoint, id) => {
-        console.log(start, end, type, waypoint)
+    getDirections = async (startLat,startLng ,endLat, endLng, type, waypoint, id) => {
+        // console.log(start, end, type, waypoint)
         const waypoints = waypoint
             ? [
                 {
-                    coordinates: [start.lng, start.lat],
+                    coordinates: [startLng, startLat],
                 },
                 {
                     coordinates: [waypoint.lng, waypoint.lat]
                 },
                 {
-                    coordinates: [end.lng, end.lat]
+                    coordinates: [endLng, endLat]
                 }
             ] :
             [
                 {
-                    coordinates: [start.lng, start.lat],
+                    coordinates: [startLng, startLat],
                 },
                 {
-                    coordinates: [end.lng, end.lat]
+                    coordinates: [endLng, endLat]
                 },
             ]
-console.log({waypoints})
+// console.log({waypoints})
         const response = await this.directionsClient.getDirections({
             profile: directionsProfiles[type],
             steps: true,
             waypoints
         })
             .send()
-console.log({response})
+// console.log({response})
         const directions = response.body;
         const {routes} = directions
         // console.log(routes[0])

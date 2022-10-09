@@ -1,25 +1,17 @@
 import express from 'express';
-import createRabbitManager from './rabbit.js';
-import {msgbus, Router} from 'helphack-router'
-import HttpHandler from "./httpHandler.js";
+import { DirectionsController } from "./directions/Directions/DirectionsController.js";
+import { DirectionsService } from "./directions/Directions/DirectionsService.js";
+import { MapApi } from "./directions/MapApi/MapApi.js";
+import { BestTimeApi } from "./directions/BestTimeApi/BestTimeApi.js";
 
 const app = express();
 const port = process.env.PORT || 3000
-let queueManager, router, httpHandler
-const init = async () => {
-  queueManager = await createRabbitManager();
-  router = new Router(queueManager);
-  httpHandler = new HttpHandler(queueManager)
-}
-init().then(() => {
-  console.log('init')
-  app.get('/*', async (req, res, next) => {
+const bestTimeApi = new BestTimeApi()
+const mapApi = new MapApi()
+const directionsService = new DirectionsService(mapApi, bestTimeApi)
+const directionsController = new DirectionsController(app, directionsService)
 
-    await httpHandler.handleRequest(req,res, next)
-  });
-
-  app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-  });
-})
+app.listen(port, () => {
+  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+});
 
