@@ -17,8 +17,16 @@ export default class Database {
     this.app.put('/requests', this.updateRequest)
   }
 
-  getRequests = async (_, response) => {
-    const results = await this.requests.find({})
+  getRequests = async (request, response) => {
+    const { query } = request.query
+
+    const filter = query ? {
+      $text: {
+        $search: query
+      }
+    } : {}
+
+    const results = await this.requests.find(filter)
     const parsed = await results.toArray()
 
     response.send(parsed)
