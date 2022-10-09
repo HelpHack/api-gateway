@@ -47,7 +47,7 @@ console.log({venues})
         const bestShopsRoutes = await Promise.all(routesPromises)
         // console.log({bestShopsRoutes: bestShopsRoutes.map(x => x.route)});
         const summedTimes = bestShopsRoutes.map(({id: venueId, route}) => {
-            const routeTime = route.duration_typical
+            const routeTime = route.duration_typical / 60
             const relevantVenue = timesPerShop.find(venue => venue.venue_id === venueId)
             const timeInShop = relevantVenue.predictedTimeInShop
 
